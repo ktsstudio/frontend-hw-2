@@ -1,0 +1,67 @@
+@import "../../general/variables.scss";
+
+.card {
+  background-color: $card-bg-color;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
+  width: 35rem;
+  height: 7.5rem;
+
+  display: flex;
+  align-items: center;
+
+  &_logo {
+    width: $card-icon-size;
+    aspect-ratio: 1;
+    grid-area: logo;
+  }
+
+  &_title {
+    font-size: $font-size-big;
+    font-weight: normal;
+    line-height: $line-height-medium;
+    grid-area: title;
+  }
+
+  &_subtitle {
+    font-size: $font-size-medium;
+    line-height: $line-height-small;
+    color: $text-color-subtitle;
+    text-transform: uppercase;
+    grid-area: subtitle;
+  }
+
+  &_price {
+    font-size: $font-size-big;
+    line-height: $line-height-medium;
+  }
+
+  &_change {
+    font-size: $font-size-small;
+    line-height: $line-height-small;
+
+    color: $text-color-increase;
+
+    &-decrease {
+      color: $text-color-decrease;
+    }
+  }
+}
+
+.card header {
+  width: 50%;
+  margin-left: calc((7.5rem - $card-icon-size) / 2);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: calc((7.5rem - $card-icon-size) / 2 - 0.4rem);
+  grid-template-areas:
+    "logo title"
+    "logo subtitle";
+}
+
+.card footer {
+  height: $card-icon-size;
+  text-align: end;
+  margin-left: auto;
+  margin-right: calc((7.5rem - $card-icon-size) / 2);
+}

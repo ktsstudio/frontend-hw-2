@@ -1,0 +1,7 @@
+@import "../../general/variables.scss";
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: $margin-medium $margin-big;
+}
