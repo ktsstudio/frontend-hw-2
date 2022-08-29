@@ -1,0 +1,53 @@
+@import "../../general/variables.scss";
+
+.button {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.6rem 1rem;
+
+  width: fit-content;
+  height: 3rem;
+
+  border-radius: 1.5rem;
+  border: 0.5px solid;
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 450;
+  font-size: $font-size-medium;
+  line-height: $line-height-small;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &_color-primary {
+    background-color: $btn-color-bg-primary;
+    border-color: $btn-color-text-primary;
+    color: $btn-color-text-primary;
+
+    &:hover {
+      color: $btn-color-bg-primary;
+      background-color: $btn-color-text-primary;
+    }
+  }
+
+  &_color-secondary {
+    background-color: $btn-color-bg-secondary;
+    border-color: $btn-color-text-secondary;
+    color: $btn-color-text-secondary;
+
+    &:hover {
+      background-color: $btn-color-text-secondary;
+      color: $btn-color-bg-secondary;
+    }
+  }
+
+  &_disabled {
+    background-color: $btn-color-bg-disabled;
+    color: $btn-color-text-disabled;
+
+    &:hover {
+      background-color: $btn-color-bg-disabled;
+      color: $btn-color-text-disabled;
+    }
+  }
+}

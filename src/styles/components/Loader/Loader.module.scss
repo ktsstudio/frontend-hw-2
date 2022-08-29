@@ -1,0 +1,36 @@
+@import "../../general/variables.scss";
+
+.loader {
+  border: 6px solid transparent;
+  border-top-color: $loader-color;
+  border-bottom-color: $loader-color;
+  border-left-color: $loader-color;
+  border-radius: 50%;
+  animation: spinner 2s linear infinite;
+
+  &_size-l {
+    width: 60px;
+    height: 60px;
+  }
+
+  &_size-m {
+    width: 40px;
+    height: 40px;
+    border-width: 4.5px;
+  }
+
+  &_size-s {
+    width: 20px;
+    height: 20px;
+    border-width: 3px;
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
