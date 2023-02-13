@@ -44,7 +44,7 @@ type LoaderProps = {
 
 <Loader size={LoaderSize.l} />  // лоадер размера L
 
-<Loader loading={isLoading} />  // лоадер, который отображается только при isLoading=false
+<Loader loading={isLoading} />  // лоадер, который отображается только при isLoading=true
 ```
 
 ## 2. WithLoader
