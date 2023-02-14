@@ -1,8 +1,6 @@
 import React from 'react';
 import { Card, CardProps } from './Card';
 
-import './Card.scss';
-
 export default {
   title: 'Card',
   component: Card,
@@ -13,19 +11,19 @@ export default {
     },
     title: {
       mapping: {
-        ['undefined']: undefined,
+        'undefined': undefined,
       },
       control: 'text'
     },
     subtitle: {
       mapping: {
-        ['undefined']: undefined,
+        'undefined': undefined,
       },
       control: 'text'
     },
     content: {
       mapping: {
-        ['undefined']: undefined,
+        'undefined': undefined,
       },
       control: 'text'
     },

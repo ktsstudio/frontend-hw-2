@@ -8,15 +8,15 @@ export default {
   argTypes: {
     size: {
       mapping: {
-        ['undefined']: undefined,
+        'undefined': undefined,
       },
       control: 'text'
     },
     loading: {
       mapping: {
-        ['true']: true,
-        ['false']: false,
-        ['undefined']: undefined,
+        'true': true,
+        'false': false,
+        'undefined': undefined,
       },
       control: 'boolean'
     }

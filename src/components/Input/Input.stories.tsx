@@ -8,20 +8,20 @@ export default {
     value: {
       control: 'text',
       mapping: {
-        ['undefined']: undefined,
+        'undefined': undefined,
       }
     },
     placeholder: {
       control: 'text',
       mapping: {
-        ['undefined']: undefined,
+        'undefined': undefined,
       }
     },
     disabled: {
       mapping: {
-        ['true']: true,
-        ['false']: false,
-        ['undefined']: undefined,
+        'true': true,
+        'false': false,
+        'undefined': undefined,
       },
       control: 'boolean'
     }

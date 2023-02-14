@@ -7,17 +7,17 @@ export default {
   argTypes: {
     disabled: {
       mapping: {
-        ['true']: true,
-        ['false']: false,
-        ['undefined']: undefined,
+        'true': true,
+        'false': false,
+        'undefined': undefined,
       },
       control: 'boolean'
     },
     checked: {
       mapping: {
-        ['true']: true,
-        ['false']: false,
-        ['undefined']: undefined,
+        'true': true,
+        'false': false,
+        'undefined': undefined,
       },
       control: 'boolean'
     }

@@ -11,9 +11,9 @@ export default {
         type: 'boolean'
       },
       mapping: {
-        ['true']: true,
-        ['false']: false,
-        ['undefined']: undefined,
+        'true': true,
+        'false': false,
+        'undefined': undefined,
       }
     },
     loading: {
@@ -21,9 +21,9 @@ export default {
         type: 'boolean'
       },
       mapping: {
-        ['true']: true,
-        ['false']: false,
-        ['undefined']: undefined,
+        'true': true,
+        'false': false,
+        'undefined': undefined,
       }
     },
     children: {

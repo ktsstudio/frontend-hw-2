@@ -17,9 +17,9 @@ export default {
     },
     disabled: {
       mapping: {
-        ['true']: true,
-        ['false']: false,
-        ['undefined']: undefined,
+        'true': true,
+        'false': false,
+        'undefined': undefined,
       },
       control: 'boolean'
     }
