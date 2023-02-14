@@ -35,6 +35,10 @@ type LoaderProps = {
      * По умолчанию - LoaderSize.m
      */
     size?: LoaderSize;
+    /**
+     * Дополнительный класс лоадера.
+     */
+    className?: string;
 };
 ```
 
