@@ -1,8 +1,9 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Locators } from './constants';
 import userEvent from '@testing-library/user-event';
-import { Input, InputProps } from '../components/Input/Input';
+import Input, { InputProps } from '../components/Input';
 
 const WrappedInput: React.FC<Pick<InputProps, 'onChange'>> = ({ onChange }) => {
   const [value, setValue] = React.useState('');
@@ -65,27 +66,6 @@ describe('Тестирование компонента Input', () => {
     expect(inputElement).toHaveAttribute('type', 'text');
   });
 
-  test('При disabled=true добавляется класс input_disabled', () => {
-    const { rerender } = render(
-      <Input
-        value=""
-        onChange={() => {}}
-        data-testid={Locators.INPUT}
-        disabled
-      />
-    );
-
-    const inputElement = screen.getByTestId(Locators.INPUT);
-
-    expect(inputElement).toHaveClass('input_disabled');
-
-    rerender(
-      <Input value="" onChange={() => {}} data-testid={Locators.INPUT} />
-    );
-
-    expect(inputElement).not.toHaveClass('input_disabled');
-  });
-
   test('При disabled=true добавляется атрибут disabled', () => {
     const { rerender } = render(
       <Input
@@ -123,9 +103,9 @@ describe('Тестирование компонента Input', () => {
     expect(mockOnChange).not.toBeCalled();
   });
 
-  test('Можно передать дополнительный className, не влияющий на остальные классы инпута', () => {
+  test('Можно передать дополнительный className и он будет на корневом элементе', () => {
     const testClassName = 'test-class';
-    render(
+    const { container } = render(
       <Input
         value=""
         onChange={() => {}}
@@ -135,9 +115,7 @@ describe('Тестирование компонента Input', () => {
       />
     );
 
-    const inputElement = screen.getByTestId(Locators.INPUT);
-
-    expect(inputElement).toHaveClass(testClassName, 'input_disabled');
+    expect(container.firstChild).toHaveClass(testClassName);
   });
 
   test('При disabled=true атрибут value передается корректно', () => {

@@ -9,6 +9,7 @@ export type Option = {
 
 /** Пропсы, которые принимает компонент Dropdown */
 export type MultiDropdownProps = {
+  className?: string;
   /** Массив возможных вариантов для выбора */
   options: Option[];
   /** Текущие выбранные значения поля, может быть пустым */
@@ -17,8 +18,10 @@ export type MultiDropdownProps = {
   onChange: (value: Option[]) => void;
   /** Заблокирован ли дропдаун */
   disabled?: boolean;
-  /** Преобразовать выбранные значения в строку. Отображается в дропдауне в качестве выбранного значения */
-  pluralizeOptions: (value: Option[]) => string;
+  /** Возвращает строку которая будет выводится в инпуте. В случае если опции не выбраны, строка должна отображаться как placeholder. */
+  getTitle: (value: Option[]) => string;
 };
 
-export const MultiDropdown: React.FC<MultiDropdownProps> = () => null;
+const MultiDropdown: React.FC<MultiDropdownProps> = () => null;
+
+export default MultiDropdown;

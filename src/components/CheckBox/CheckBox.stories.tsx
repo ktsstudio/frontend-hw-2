@@ -1,10 +1,13 @@
 import React from 'react';
-import { CheckBox, CheckBoxProps } from './CheckBox';
+import CheckBox, { CheckBoxProps } from './CheckBox';
 
 export default {
   title: 'CheckBox',
   component: CheckBox,
   argTypes: {
+    className: {
+      control: 'text',
+    },
     disabled: {
       mapping: {
         'true': true,

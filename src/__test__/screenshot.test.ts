@@ -1,10 +1,9 @@
 import puppeteer, { Page, Browser } from 'puppeteer';
+import crypto from 'crypto';
 import http from 'http';
 import handler  from 'serve-handler';
 import path from 'path';
-import fs from 'fs';
 import { MatchImageSnapshotOptions } from 'jest-image-snapshot';
-import yaml from 'js-yaml';
 import { setupScreenshotTesting } from './screenshotUtils/screenshotTesting';
 import { BROWSER_OPTIONS } from './screenshotUtils/browserOptions';
 
@@ -12,16 +11,18 @@ let server: any;
 let browser: Browser;
 let page: Page;
 
-const AVAILABLE_PROJECT_TYPES = ['github', 'e-commerce', 'food', 'crypto'];
-const USER_OPTIONS = yaml.load(fs.readFileSync('config.yml', 'utf8')) as { project_type: string};
+const SNAPSHOT_DIR = path.join(__dirname, '__image_snapshots__');
 
-if (!AVAILABLE_PROJECT_TYPES.includes(USER_OPTIONS.project_type)) {
-  throw new Error('Invalid project_type')
-}
+const MATCH_SNAPSHOT_OPTIONS: MatchImageSnapshotOptions = { customSnapshotsDir: SNAPSHOT_DIR, failureThreshold: 0.05, failureThresholdType: 'percent', customSnapshotIdentifier: ({ currentTestName }) => {
+  const result = currentTestName.replace(/^Screenshot\s/, '').replaceAll(' ', '_').replaceAll('/', '-');
 
-const SNAPSHOT_DIR = path.join(__dirname, '__image_snapshots__', USER_OPTIONS.project_type);
+  if (result.length > 150) {
+    return crypto.createHash('md5').update(result).digest('hex');
+  }
 
-const MATCH_SNAPSHOT_OPTIONS: MatchImageSnapshotOptions = { customSnapshotsDir: SNAPSHOT_DIR, failureThreshold: 0.05, failureThresholdType: 'percent', customSnapshotIdentifier: ({ currentTestName }) => currentTestName.replaceAll(' ', '_').replaceAll('/', '-')}
+  return result;
+
+}}
 
 const screenshotTesting = setupScreenshotTesting({
   it,
@@ -47,96 +48,10 @@ describe('Screenshot', () => {
     componentName: 'loader',
     props: {
       size: ['l', 'm', 's', undefined],
-      loading: [true, false, undefined],
     },
     viewPort: {
       width: 100,
       height: 100,
-    },
-  });
-
-  screenshotTesting({
-    componentName: 'withloader',
-    props: {
-      children: ['Page content'],
-      loading: [true, false, undefined],
-    },
-    viewPort: {
-      width: 200,
-      height: 100,
-    },
-  });
-
-  screenshotTesting({
-    componentName: 'button',
-    props: {
-      children: ['Send', 'Cancel'],
-      loading: [true, false, undefined],
-      disabled: [true, false, undefined],
-    },
-    viewPort: {
-      width: 200,
-      height: 80,
-    },
-  });
-
-  screenshotTesting({
-    name: 'button hover',
-    componentName: 'button',
-    props: {
-      children: ['Send', 'Cancel'],
-      loading: [true, false, undefined],
-      disabled: [true, false, undefined],
-    },
-    viewPort: {
-      width: 200,
-      height: 80,
-    },
-    evaluate: async (p: Page) => {
-      await p.hover('.button');
-      await p.waitForTimeout(300);
-    }
-  });
-
-
-  screenshotTesting({
-    componentName: 'card',
-    props: {
-      title: ['kts-school-frontend'],
-      subtitle: ['ktsstudio']
-    },
-    viewPort: {
-      width: 380,
-      height: 600,
-    },
-  });
-
-  screenshotTesting({
-    name: 'card hover',
-    componentName: 'card',
-    props: {
-      title: ['kts-school-frontend'],
-      subtitle: ['ktsstudio']
-    },
-    viewPort: {
-      width: 380,
-      height: 600,
-    },
-    evaluate: async (p: Page) =>
-      await p.hover('.card')
-  });
-
-
-  screenshotTesting({
-    componentName: 'input',
-    props: {
-      value: ['text', undefined],
-      placeholder: ['text', undefined],
-      disabled: [true, false, undefined],
-    },
-    viewPort: {
-      width: 400,
-      height: 200,
     },
     matchOptions: {
       blur: 2,
@@ -145,19 +60,138 @@ describe('Screenshot', () => {
   });
 
   screenshotTesting({
-    name: 'input focus',
+    componentName: 'button',
+    props: {
+      className: ['test-button'],
+      children: ['Send', 'Cancel'],
+      loading: [true, false, undefined],
+      disabled: [true, false, undefined],
+    },
+    viewPort: {
+      width: 200,
+      height: 80,
+    },
+  });
+
+  screenshotTesting({
+    name: 'Icons',
+    componentName: 'icons',
+    props: {
+      width: ['24', '40'],
+      height: ['24', '40'],
+      color: ['accent', 'secondary', 'primary']
+    },
+    viewPort: {
+      width: 140,
+      height: 80,
+    },
+  });
+
+  screenshotTesting({
+    name: 'Icons blur',
+    componentName: 'icons',
+    props: {
+      color: ['accent', 'secondary', 'primary']
+    },
+    viewPort: {
+      width: 140,
+      height: 80,
+    },
+    matchOptions: {
+      blur: 2,
+      failureThreshold: 0.02,
+    }
+  });
+
+  screenshotTesting({
+    name: 'button hover',
+    componentName: 'button',
+    props: {
+      className: ['test-button'],
+      children: ['Send', 'Cancel'],
+      loading: [true, false, undefined],
+      disabled: [true, false, undefined],
+    },
+    viewPort: {
+      width: 200,
+      height: 80,
+    },
+    evaluate: async (p: Page) => {
+      await p.hover('.test-button');
+      await p.waitForTimeout(300);
+    }
+  });
+
+
+  screenshotTesting({
+    componentName: 'card',
+    props: {
+      className: ['test-card'],
+      title: ['kts-school-frontend', 'kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend'],
+      subtitle: ['ktsstudio', 'kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend'],
+      contentSlot: ['99.88'],
+      // image: ['/picture.svg'],
+      captionSlot: [undefined, 'caption-text']
+    },
+    viewPort: {
+      width: 380,
+      height: 650,
+    },
+  });
+
+  screenshotTesting({
+    name: 'card hover',
+    componentName: 'card',
+    props: {
+      className: ['test-card'],
+      title: ['kts-school-frontend', 'kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend'],
+      subtitle: ['ktsstudio', 'kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend'],
+      contentSlot: ['99.88'],
+      // image: ['/picture.svg'],
+      captionSlot: [undefined, 'caption-text']
+    },
+    viewPort: {
+      width: 380,
+      height: 650,
+    },
+    evaluate: async (p: Page) =>
+      await p.hover('.test-card')
+  });
+
+
+  screenshotTesting({
     componentName: 'input',
     props: {
+      className: ['test-input'],
       value: ['text', undefined],
       placeholder: ['text', undefined],
       disabled: [true, false, undefined],
     },
     viewPort: {
       width: 400,
-      height: 200,
+      height: 100,
+    },
+    // matchOptions: {
+    //   blur: 2,
+    //   failureThreshold: 0.02,
+    // }
+  });
+
+  screenshotTesting({
+    name: 'input focus',
+    componentName: 'input',
+    props: {
+      className: ['test-input'],
+      value: ['text', undefined],
+      placeholder: ['text', undefined],
+      disabled: [true, false, undefined],
+    },
+    viewPort: {
+      width: 400,
+      height: 100,
     },
     evaluate: async (p: Page) => {
-      await p.focus('.input')
+      await p.focus('.test-input')
     }
   });
 
@@ -167,7 +201,10 @@ describe('Screenshot', () => {
     props: {
       'value[0].key': ['msk'],
       'value[1].key': ['spb'],
+      'value[0].value': ['Moscow'],
+      'value[1].value': ['Saint Petersburg'],
       disabled: [true, false, undefined],
+      className: ['test-multidropdown'],
     },
     viewPort: {
       width: 400,
@@ -181,14 +218,17 @@ describe('Screenshot', () => {
     props: {
       'value[0].key': ['msk'],
       'value[1].key': ['spb'],
+      'value[0].value': ['Moscow'],
+      'value[1].value': ['Saint Petersburg'],
       disabled: [true, false, undefined],
+      className: ['test-multidropdown'],
     },
     viewPort: {
       width: 400,
       height: 600,
     },
     evaluate: async (p: Page) => {
-      await p.click('.multi-dropdown')
+      await p.click('.test-multidropdown')
     },
   });
 
@@ -197,14 +237,11 @@ describe('Screenshot', () => {
     props: {
       disabled: [true, false, undefined],
       checked: [true, false, undefined],
+      className: ['test-checkbox'],
     },
     viewPort: {
       width: 100,
       height: 100,
-    },
-    evaluate: async (p: Page) => {
-      await p.click('.checkbox');
-      await p.waitForTimeout(300);
     },
     matchOptions: {
       blur: 2,
@@ -218,13 +255,14 @@ describe('Screenshot', () => {
     props: {
       disabled: [true, false, undefined],
       checked: [true, false, undefined],
+      className: ['test-checkbox'],
     },
     viewPort: {
       width: 100,
       height: 100,
     },
     evaluate: async (p: Page) => {
-      await p.hover('.checkbox');
+      await p.hover('.test-checkbox');
       await p.waitForTimeout(300);
     },
     matchOptions: {
@@ -238,14 +276,16 @@ describe('Screenshot', () => {
     componentName: 'checkbox',
     props: {
       disabled: [true, false, undefined],
+      className: ['test-checkbox'],
     },
     viewPort: {
       width: 100,
       height: 100,
     },
     evaluate: async (p: Page) => {
-      await p.click('.checkbox');
+      await p.click('.test-checkbox');
       await p.waitForTimeout(300);
+      await p.mouse.move(100, 100);
     },
     matchOptions: {
       blur: 2,

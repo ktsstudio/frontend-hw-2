@@ -4,10 +4,13 @@ export enum Locators {
     LOADER = 'loader',
     TEST_CONTAINER = 'test-container',
     CARD_CONTENT = 'card-content',
+    CARD_ACTION = 'card-action',
     CARD_TITLE = 'card-title',
     CARD_SUBTITLE = 'card-subtitle',
     INPUT = 'input',
-    CHECKBOX = 'checkbox'
+    CHECKBOX = 'checkbox',
+    ICON = 'icon',
+    TEXT = 'text'
 };
 
 export const BUTTON_TEXT = 'BUTTON_TEST_TEXT';

@@ -1,27 +1,39 @@
 import React from 'react';
-import { Card, CardProps } from './Card';
+import Button from '../Button';
+import Card, { CardProps } from './Card';
 
 export default {
   title: 'Card',
   component: Card,
   argTypes: {
+    className: {
+      control: 'text',
+    },
     image: {
-      defaultValue: '/logo512.png',
+      defaultValue: '/picture.svg',
+      control: 'text'
+    },
+    captionSlot: {
+      mapping: {
+        'undefined': undefined,
+      },
       control: 'text'
     },
     title: {
       mapping: {
         'undefined': undefined,
       },
-      control: 'text'
+      control: 'text',
+      defaultValue: 'Заголовок карточки в несколько строк Заголовок карточки в несколько строк'
     },
     subtitle: {
       mapping: {
         'undefined': undefined,
       },
-      control: 'text'
+      control: 'text',
+      defaultValue: 'Описание карточки Описание карточки Описание карточкиОписание карточкиОписание карточки Описание карточки'
     },
-    content: {
+    contentSlot: {
       mapping: {
         'undefined': undefined,
       },
@@ -31,5 +43,5 @@ export default {
 };
 
 export const Default = (props: CardProps) => (
-    <Card {...props} />
+    <Card {...props} actionSlot={<Button>В корзину</Button>} />
 );

@@ -1,11 +1,12 @@
 import React from 'react';
 
-export type ButtonProps = React.PropsWithChildren<{
-  /**
-   * Если true, то внутри кнопки вместе с children отображается компонент Loader
-   * Также кнопка должна переходить в состояние disabled
-   */
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  /** Состояние загрузки */
   loading?: boolean;
-}> & React.ButtonHTMLAttributes<HTMLButtonElement>;
+  /** Текст кнопки */
+  children: React.ReactNode;
+};
 
-export const Button: React.FC<ButtonProps> = () => null;
+const Button: React.FC<ButtonProps> = () => null;
+
+export default Button;

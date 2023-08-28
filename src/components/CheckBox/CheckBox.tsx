@@ -5,7 +5,9 @@ export type CheckBoxProps = Omit<
   'onChange'
 > & {
   /** Вызывается при клике на чекбокс */
-  onChange: (value: boolean) => void;
+  onChange: (checked: boolean) => void;
 };
 
-export const CheckBox: React.FC<CheckBoxProps> = () => null;
+const CheckBox: React.FC<CheckBoxProps> = () => null;
+
+export default CheckBox;

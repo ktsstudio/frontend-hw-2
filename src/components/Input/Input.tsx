@@ -8,6 +8,11 @@ export type InputProps = Omit<
   value: string;
   /** Callback, вызываемый при вводе данных в поле */
   onChange: (value: string) => void;
+  /** Слот для иконки справа */
+  afterSlot?: React.ReactNode;
 };
 
-export const Input: React.FC<InputProps> = () => null;
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  () => null);
+
+export default Input;

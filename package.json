@@ -19,6 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "test:single": "react-scripts test --watchAll=false",
     "test": "yarn build-storybook && react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6007 -s public",
@@ -26,7 +27,8 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(css|less|scss)$": "identity-obj-proxy"
+      "\\.(css|less|scss)$": "identity-obj-proxy",
+      "^.+\\.svg$": "jest-svg-transformer"
     }
   },
   "eslintConfig": {
@@ -81,6 +83,7 @@
     "jest-dev-server": "6.2.0",
     "jest-environment-jsdom": "^29.4.1",
     "jest-image-snapshot": "^6.1.0",
+    "jest-svg-transformer": "^1.0.0",
     "prop-types": "^15.8.1",
     "puppeteer": "^19.6.2",
     "sass": "^1.54.3",

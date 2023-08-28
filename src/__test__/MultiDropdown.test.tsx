@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import {
-  MultiDropdown,
+import MultiDropdown, {
   MultiDropdownProps,
   Option,
 } from '../components/MultiDropdown/MultiDropdown';
@@ -13,7 +12,7 @@ const options: Option[] = [
   { key: 'ekb', value: 'Екатеринбург' },
 ];
 
-const defaultPluralizeOptions = (elements: Option[]) =>
+const defaultGetTitle = (elements: Option[]) =>
   elements.map((el: Option) => el.key).join();
 
 const WrappedDropdown: React.FC<
@@ -24,30 +23,30 @@ const WrappedDropdown: React.FC<
 };
 
 describe('Тестирование компонента MultiDropdown', () => {
-  test('Проверка отображения результата выполнения pluralizeOptions', () => {
-    const pluralizeOptions = jest
+  test('Проверка отображения результата выполнения getTitle', () => {
+    const getTitle = jest
       .fn()
-      .mockImplementation(defaultPluralizeOptions);
+      .mockImplementation(defaultGetTitle);
     const { rerender } = render(
       <MultiDropdown
         onChange={() => {}}
         value={options}
         options={options}
-        pluralizeOptions={pluralizeOptions}
+        getTitle={getTitle}
       />
     );
 
-    const dropdownElement = screen.getByText('msk,spb,ekb');
+    const dropdownElement = screen.getByDisplayValue('msk,spb,ekb');
 
     expect(dropdownElement).toBeInTheDocument();
-    expect(pluralizeOptions).toBeCalled();
+    expect(getTitle).toBeCalled();
 
     rerender(
       <MultiDropdown
         onChange={() => {}}
         value={[]}
         options={options}
-        pluralizeOptions={pluralizeOptions}
+        getTitle={getTitle}
       />
     );
 
@@ -61,11 +60,11 @@ describe('Тестирование компонента MultiDropdown', () => {
         onChange={mockOnChange}
         value={options}
         options={options}
-        pluralizeOptions={defaultPluralizeOptions}
+        getTitle={defaultGetTitle}
       />
     );
 
-    const dropdownElement = screen.getByText('msk,spb,ekb');
+    const dropdownElement = screen.getByDisplayValue('msk,spb,ekb');
     userEvent.click(dropdownElement);
 
     const firstOption = screen.getByText(options[0].value);
@@ -78,7 +77,7 @@ describe('Тестирование компонента MultiDropdown', () => {
         onChange={mockOnChange}
         value={[]}
         options={options}
-        pluralizeOptions={defaultPluralizeOptions}
+        getTitle={defaultGetTitle}
       />
     );
 
@@ -86,13 +85,35 @@ describe('Тестирование компонента MultiDropdown', () => {
     expect(mockOnChange).toBeCalledWith([options[0]]);
   });
 
+  test('Проверка закрытия списка опций при клике вне', () => {
+    const title = 'TEST_TITLE';
+    render(
+      <>
+        <button data-testid="outside">some</button>
+        <WrappedDropdown options={options} getTitle={() => title} />
+      </>
+    );
+
+    const dropdownElement = screen.getByDisplayValue('');
+    expect(dropdownElement).toBeInTheDocument();
+
+    userEvent.click(dropdownElement);
+
+    const firstOption = screen.getByText(options[0].value);
+    expect(firstOption).toBeInTheDocument();
+
+    const outside = screen.getByTestId('outside')
+    userEvent.click(outside);
+    expect(firstOption).not.toBeInTheDocument();
+  });
+
   test('Проверка открытия/закрытия списка опций при клике', () => {
     const title = 'TEST_TITLE';
     render(
-      <WrappedDropdown options={options} pluralizeOptions={() => title} />
+      <WrappedDropdown options={options} getTitle={() => title} />
     );
 
-    const dropdownElement = screen.getByText(title);
+    const dropdownElement = screen.getByDisplayValue('');
     expect(dropdownElement).toBeInTheDocument();
 
     userEvent.click(dropdownElement);
@@ -101,16 +122,16 @@ describe('Тестирование компонента MultiDropdown', () => {
     expect(firstOption).toBeInTheDocument();
 
     userEvent.click(dropdownElement);
-    expect(firstOption).not.toBeInTheDocument();
+    expect(firstOption).toBeInTheDocument();
   });
 
   test('Отображаются все переданные options', () => {
     const title = 'TEST_TITLE';
     render(
-      <WrappedDropdown options={options} pluralizeOptions={() => title} />
+      <WrappedDropdown options={options} getTitle={() => title} />
     );
 
-    const dropdownElement = screen.getByText(title);
+    const dropdownElement = screen.getByDisplayValue('');
     expect(dropdownElement).toBeInTheDocument();
 
     userEvent.click(dropdownElement);
@@ -127,10 +148,10 @@ describe('Тестирование компонента MultiDropdown', () => {
   test('При disabled=true не открывается список опций', () => {
     const title = 'TEST_TITLE';
     const { rerender } = render(
-      <WrappedDropdown options={options} pluralizeOptions={() => title} />
+      <WrappedDropdown options={options} getTitle={() => title} />
     );
 
-    const dropdownElement = screen.getByText(title);
+    const dropdownElement = screen.getByDisplayValue('');
     expect(dropdownElement).toBeInTheDocument();
 
     userEvent.click(dropdownElement);
@@ -141,7 +162,7 @@ describe('Тестирование компонента MultiDropdown', () => {
     rerender(
       <WrappedDropdown
         options={options}
-        pluralizeOptions={() => title}
+        getTitle={() => title}
         disabled
       />
     );
@@ -160,11 +181,11 @@ describe('Тестирование компонента MultiDropdown', () => {
         onChange={mockOnChange}
         value={[]}
         options={options}
-        pluralizeOptions={() => title}
+        getTitle={() => title}
       />
     );
 
-    const dropdownElement = screen.getByText(title);
+    const dropdownElement = screen.getByDisplayValue('');
     userEvent.click(dropdownElement);
 
     const firstOption = screen.getByText(options[0].value);
@@ -183,11 +204,11 @@ describe('Тестирование компонента MultiDropdown', () => {
         onChange={mockOnChange}
         value={options}
         options={options}
-        pluralizeOptions={defaultPluralizeOptions}
+        getTitle={defaultGetTitle}
       />
     );
 
-    const dropdownElement = screen.getByText('msk,spb,ekb');
+    const dropdownElement = screen.getByDisplayValue('msk,spb,ekb');
     userEvent.click(dropdownElement);
 
     const firstOption = screen.getByText(options[0].value);
@@ -203,11 +224,11 @@ describe('Тестирование компонента MultiDropdown', () => {
         onChange={() => {}}
         value={[]}
         options={options}
-        pluralizeOptions={() => title}
+        getTitle={() => title}
       />
     );
 
-    const dropdownElement = screen.getByText(title);
+    const dropdownElement = screen.getByDisplayValue('');
     userEvent.click(dropdownElement);
 
     const firstOption = screen.getByText(options[0].value);
@@ -223,7 +244,7 @@ describe('Тестирование компонента MultiDropdown', () => {
         onChange={() => {}}
         value={[]}
         options={[options[0], options[2]]}
-        pluralizeOptions={() => title}
+        getTitle={() => title}
       />
     );
 

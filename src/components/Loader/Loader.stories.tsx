@@ -1,25 +1,19 @@
 import React from 'react';
 
-import { Loader, LoaderProps } from './Loader';
+import Loader, {  LoaderProps } from './Loader';
 
 export default {
   title: 'Loader',
   component: Loader,
   argTypes: {
-    size: {
-      mapping: {
-        'undefined': undefined,
-      },
-      control: 'text'
+    className: {
+      control: 'text',
     },
-    loading: {
-      mapping: {
-        'true': true,
-        'false': false,
-        'undefined': undefined,
-      },
-      control: 'boolean'
-    }
+    size: {
+      options: ['undefined', 'l', 'm', 's'],
+      mapping: ['undefined', 'l', 'm', 's'],
+      control: 'select'
+    },
   },
 };
 

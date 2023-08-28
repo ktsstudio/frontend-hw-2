@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Button } from '../components/Button/Button';
+import Button from '../components/Button/Button';
 import { BUTTON_TEXT, Locators } from './constants';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('../components/Loader/Loader.tsx', () => require('./MockLoader'));
+jest.mock('../components/Loader', () => require('./MockLoader'));
 
 describe('Тестирование компонента Button', () => {
   test('Текстовый children пробрасывается корректно', () => {
@@ -81,22 +81,6 @@ describe('Тестирование компонента Button', () => {
     expect(mockOnClick).not.toBeCalled();
   });
 
-  test('При передаче loading=true добавляется класс button_disabled', () => {
-    const { rerender } = render(
-      <Button data-testid={Locators.BUTTON} loading>
-        {BUTTON_TEXT}
-      </Button>
-    );
-
-    const buttonElement = screen.getByTestId(Locators.BUTTON);
-
-    expect(buttonElement).toHaveClass('button_disabled');
-
-    rerender(<Button data-testid={Locators.BUTTON}>{BUTTON_TEXT}</Button>);
-
-    expect(buttonElement).not.toHaveClass('button_disabled');
-  });
-
   test('Переданный onClick вызывается при клике', () => {
     const mockOnClick = jest.fn();
     render(
@@ -134,22 +118,6 @@ describe('Тестирование компонента Button', () => {
     expect(mockOnClick).toBeCalledTimes(1);
   });
 
-  test('При disabled=true добавляется класс button_disabled', () => {
-    const { rerender } = render(
-      <Button data-testid={Locators.BUTTON} disabled>
-        {BUTTON_TEXT}
-      </Button>
-    );
-
-    const buttonElement = screen.getByTestId(Locators.BUTTON);
-
-    expect(buttonElement).toHaveClass('button_disabled');
-
-    rerender(<Button data-testid={Locators.BUTTON}>{BUTTON_TEXT}</Button>);
-
-    expect(buttonElement).not.toHaveClass('button_disabled');
-  });
-
   test('При disabled=true проставляется атрибут disabled=true у кнопки', () => {
     const { rerender } = render(
       <Button data-testid={Locators.BUTTON} disabled>
@@ -166,17 +134,17 @@ describe('Тестирование компонента Button', () => {
     expect(buttonElement).not.toBeDisabled();
   });
 
-  test('Можно передать дополнительный className, не влияющий на остальные классы кнопки', () => {
+  test('Можно передать дополнительный className', () => {
     const testClassName = 'test-class';
     render(
-      <Button className={testClassName} data-testid={Locators.BUTTON} disabled>
+      <Button className={testClassName} data-testid={Locators.BUTTON}>
         {BUTTON_TEXT}
       </Button>
     );
 
     const buttonElement = screen.getByTestId(Locators.BUTTON);
 
-    expect(buttonElement).toHaveClass(testClassName, 'button_disabled');
+    expect(buttonElement).toHaveClass(testClassName);
   });
 
   test('Пробрасываются все пропсы, которые принимает нативная кнопка', () => {
@@ -221,8 +189,4 @@ describe('Тестирование компонента Button', () => {
     expect(buttonElement).toHaveAttribute('name', name);
     expect(buttonElement).toHaveStyle({ width });
   });
-
-  test.todo(
-    'Для управления css-классами должна использоваться библиотека classnames'
-  );
 });

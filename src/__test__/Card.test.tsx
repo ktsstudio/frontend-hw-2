@@ -1,8 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Card } from '../components/Card/Card';
+import Card from '../components/Card';
 import userEvent from '@testing-library/user-event';
 import { CARD_SUBTITLE, CARD_TITLE, Locators } from './constants';
+
+jest.mock('../components/Text', () => require('./MockText'));
 
 describe('Тестирование компонента Card', () => {
   test('Пропсы title, subtitle передаются и отображаются', () => {
@@ -19,7 +21,7 @@ describe('Тестирование компонента Card', () => {
     render(
       <Card
       // @ts-ignore
-        title={<div data-testid={Locators.CARD_TITLE} />}
+        title={<span data-testid={Locators.CARD_TITLE} />}
         subtitle={CARD_SUBTITLE}
         image="--"
       />
@@ -34,7 +36,7 @@ describe('Тестирование компонента Card', () => {
     render(
       <Card
         title={CARD_TITLE}
-        subtitle={<div data-testid={Locators.CARD_SUBTITLE} />}
+        subtitle={<span data-testid={Locators.CARD_SUBTITLE} />}
         image="--"
       />
     );
@@ -62,15 +64,16 @@ describe('Тестирование компонента Card', () => {
       <Card image={testImageSrc} title={CARD_TITLE} subtitle={CARD_SUBTITLE} />
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     const imageElement = baseElement.querySelector('img')
 
     expect(imageElement).toHaveAttribute('src', testImageSrc);
   });
 
-  test('Пропс content передаются и отображается', () => {
+  test('Пропс captionSlot передаются и отображается', () => {
     const { rerender } = render(
       <Card
-        content={<div data-testid={Locators.CARD_CONTENT}>content</div>}
+        captionSlot={<span data-testid={Locators.CARD_CONTENT}>content</span>}
         image="-"
         title={CARD_TITLE}
         subtitle={CARD_SUBTITLE}
@@ -86,22 +89,52 @@ describe('Тестирование компонента Card', () => {
 
   test('При клике вызывается onClick, если передан', () => {
     const mockOnClick = jest.fn();
-    render(
-      <div data-testid={Locators.TEST_CONTAINER}>
+    const { container} = render(
+
         <Card
           onClick={mockOnClick}
           title={CARD_TITLE}
           subtitle={CARD_SUBTITLE}
           image="-"
         />
-      </div>
+
     );
 
-    const container = screen.getByTestId(Locators.TEST_CONTAINER);
+    // eslint-disable-next-line testing-library/no-node-access
     const cardElement = container.firstChild;
 
     expect(cardElement).toBeInTheDocument();
     userEvent.click(cardElement as Element);
     expect(mockOnClick).toBeCalledTimes(1);
+  });
+
+  test('Пропс actionSlot передаются и отображается', () => {
+    const { rerender } = render(
+      <Card
+        actionSlot={<button data-testid={Locators.CARD_ACTION}>action</button>}
+        image="-"
+        title={CARD_TITLE}
+        subtitle={CARD_SUBTITLE}
+      />
+    );
+
+    const content = screen.getByTestId(Locators.CARD_ACTION);
+    expect(content).toBeInTheDocument();
+
+    rerender(<Card image="-" title={CARD_TITLE} subtitle={CARD_SUBTITLE} />);
+    expect(content).not.toBeInTheDocument();
+  });
+
+  test('Для title и subtitle используется компонент Text', () => {
+    render(
+      <Card
+        image="-"
+        title={CARD_TITLE}
+        subtitle={CARD_SUBTITLE}
+      />
+    );
+
+    const texts = screen.getAllByTestId(Locators.TEXT);
+    expect(texts.length).toBe(2);
   });
 });

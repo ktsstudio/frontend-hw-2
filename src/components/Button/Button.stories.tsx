@@ -1,11 +1,14 @@
 import React from 'react';
 
-import { Button, ButtonProps } from './Button';
+import Button, { ButtonProps } from './Button';
 
 export default {
   title: 'Button',
   component: Button,
   argTypes: {
+    className: {
+      control: 'text',
+    },
     disabled: {
       control: {
         type: 'boolean'
