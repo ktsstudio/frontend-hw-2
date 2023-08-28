@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Locators } from './constants';
 import userEvent from '@testing-library/user-event';
-import { CheckBox } from '../components/CheckBox/CheckBox';
+import CheckBox from '../components/CheckBox';
 
 describe('Тестирование компонента CheckBox', () => {
   test('Значение чекбокса зависит от пропса checked', () => {
