@@ -2,7 +2,7 @@
 
 В данном домашнем задании Вам необходимо реализовать React-компоненты для вашего будущего проекта.
 
-[Макеты](https://www.figma.com/file/DXNsHlF1UVkRo2Iu2bWayQ/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B-New?type=design&node-id=0%3A1&mode=design&t=JUz4jfQkgF4W8oBP-1)
+[Макеты](https://www.figma.com/file/x10xReXUxSisyzDMjC0NPL/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B-UIKit?type=design&node-id=0%3A1&mode=design&t=gXpqhNmAZawkzsB5-1)
 
 **Требования:**
 1. Все цвета и отступы должны быть заданы в переменных (указаны в макете)
