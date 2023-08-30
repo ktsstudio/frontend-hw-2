@@ -10,7 +10,7 @@ export default {
       control: 'text',
     },
     size: {
-      options: ['undefined', 'l', 'm', 's'],
+      options: [undefined, 'l', 'm', 's'],
       mapping: ['undefined', 'l', 'm', 's'],
       control: 'select'
     },
