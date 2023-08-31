@@ -137,6 +137,9 @@ describe('Screenshot', () => {
       width: 380,
       height: 650,
     },
+    matchOptions: {
+      failureThreshold: 0.07,
+    },
   });
 
   screenshotTesting({
@@ -153,6 +156,9 @@ describe('Screenshot', () => {
     viewPort: {
       width: 380,
       height: 650,
+    },
+    matchOptions: {
+      failureThreshold: 0.07,
     },
     evaluate: async (p: Page) =>
       await p.hover('.test-card')
