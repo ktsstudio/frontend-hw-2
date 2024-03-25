@@ -5,22 +5,52 @@
 [Макеты](https://www.figma.com/file/x10xReXUxSisyzDMjC0NPL/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B-UIKit?type=design&node-id=0%3A1&mode=design&t=gXpqhNmAZawkzsB5-1)
 
 **Требования:**
+
 1. Все цвета и отступы должны быть заданы в переменных (указаны в макете)
-![Переменные](./public//styles.png)
+   ![Переменные](./public//styles.png)
+
+## Запуск тестов
+
+Для запуска **всех тестов** выполняйте команду:
+
+```
+yarn test
+```
+
+Для запуска теста **отдельного компонента**:
+
+```
+yarn test:single <название компонента>
+```
+
+Например:
+
+```
+yarn test:single Card
+```
+
+### Как запустить скриншотный тест для отдельного компонента
+
+- В WebStorm есть опция запуска теста внутри файла теста (иконка play слева от кода).
+- В VSCode можно установить расширение Jest, которое позволяет запускать отдельные скриншотные тесты из меню расширения Jest. После установки зависимостей перезапустите VSCode, чтобы расширение проиндексировало файлы тестов.
+
+> При этом необходимо на время закомментировать те тест-кейсы, которые не требуется прогонять (вызовы функции `screenshotTesting`). **Важно всё раскомментировать перед финальной общей проверкой и пушем в репозиторий.**
 
 ## 1. Loader
+
 Реализуйте компонент Лоадер
 
 ```typescript
 type LoaderProps = {
-    /** Размер */
-    size?: 's' | 'm' | 'l';
-    /** Дополнительный класс */
-    className?: string;
+  /** Размер */
+  size?: 's' | 'm' | 'l';
+  /** Дополнительный класс */
+  className?: string;
 };
 ```
 
 **Примеры использования:**
+
 ```typescript
 <Loader />  // стандартный лоадер
 
@@ -28,39 +58,43 @@ type LoaderProps = {
 ```
 
 ## 2. Text
+
 Реализуйте компонент Text
 
 **Требования:**
+
 1. По умолчанию должен иметь цвет родителя
 1. Пропс `weight` имеет больший приоритет чем `view`
 1. При указании `tag` рендерится соответствующий тег, по умолчанию `p`
 
 ```typescript
 type TextProps = {
-    /** Дополнительный класс */
-    className?: string;
-    /** Стиль отображения */
-    view?: 'title' | 'button' | 'p-20' | 'p-18' | 'p-16' | 'p-14';
-    /** Html-тег */
-    tag?:  'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'p' | 'span';
-    /** Начертание шрифта */
-    weight?: 'normal' | 'medium' | 'bold';
-    /** Контент */
-    children: React.ReactNode;
-    /** Цвет */
-    color?: 'primary' | 'secondary' | 'accent';
-    /** Максимальное кол-во строк */
-    maxLines?: number;
+  /** Дополнительный класс */
+  className?: string;
+  /** Стиль отображения */
+  view?: 'title' | 'button' | 'p-20' | 'p-18' | 'p-16' | 'p-14';
+  /** Html-тег */
+  tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'p' | 'span';
+  /** Начертание шрифта */
+  weight?: 'normal' | 'medium' | 'bold';
+  /** Контент */
+  children: React.ReactNode;
+  /** Цвет */
+  color?: 'primary' | 'secondary' | 'accent';
+  /** Максимальное кол-во строк */
+  maxLines?: number;
 };
 ```
 
 **Примеры использования:**
+
 ```typescript
 <Text tag="p" weight="medium">Жирный текст</Text>
 <Text tag="h1" view="title" maxLines={2}>Заголовок</Text>
 ```
 
 ## 3. Icons
+
 Реализуйте компоненты иконок. (Назвать их CheckIcon и ArrowDownIcon)
 
 1. Все компоненты иконок лежат в директории `components/icons/` (Пример импорта: `import CheckIcon from 'components/icons/CheckIcon'`)
@@ -70,21 +104,24 @@ type TextProps = {
 
 ```typescript
 type IconProps = React.SVGAttributes<SVGElement> & {
-    className?: string;
-    color?: 'primary' | 'secondary' | 'accent';
+  className?: string;
+  color?: 'primary' | 'secondary' | 'accent';
 };
 ```
 
 **Примеры использования:**
+
 ```typescript
 <CheckIcon width={40} height={40} />
 <ArrowDownIcon color="accent" />
 ```
 
 ## 4. Button
+
 Реализуйте компонент Кнопка
 
 **Требования:**
+
 1. Кнопка использует html-тег button и принимает все его пропсы
 1. Кнопка принимает пропсы ButtonProps и удовлетворяет их требованиям, описанным ниже
 1. Текст кнопки/дочерний элемент передается в качестве `children`
@@ -103,6 +140,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 ```
 
 **Примеры использования:**
+
 ```typescript
 // Кнопка с текстом "Отправить", логирующая в консоль "Письмо отправлено" при клике
 <Button onClick={() => console.log('Письмо отправлено')}>
@@ -133,9 +171,11 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 ```
 
 ## 5. Card
+
 Реализуйте компонент Карточка (Элемент списка)
 
 **Требования:**
+
 1. Для изображения используется html-тег `img`
 1. В заголовке может быть максимум 2 строки
 1. В описании может быть максимум 3 строки
@@ -146,26 +186,27 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 ```typescript
 type CardProps = {
-    /** Дополнительный classname */
-    className?: string,
-    /** URL изображения */
-    image: string;
-    /** Слот над заголовком */
-    captionSlot?: React.ReactNode;
-    /** Заголовок карточки */
-    title: React.ReactNode;
-    /** Описание карточки */
-    subtitle: React.ReactNode;
-    /** Содержимое карточки (футер/боковая часть), может быть пустым */
-    contentSlot?: React.ReactNode;
-    /** Клик на карточку */
-    onClick?: React.MouseEventHandler;
-    /** Слот для действия */
-    actionSlot?: React.ReactNode;
+  /** Дополнительный classname */
+  className?: string;
+  /** URL изображения */
+  image: string;
+  /** Слот над заголовком */
+  captionSlot?: React.ReactNode;
+  /** Заголовок карточки */
+  title: React.ReactNode;
+  /** Описание карточки */
+  subtitle: React.ReactNode;
+  /** Содержимое карточки (футер/боковая часть), может быть пустым */
+  contentSlot?: React.ReactNode;
+  /** Клик на карточку */
+  onClick?: React.MouseEventHandler;
+  /** Слот для действия */
+  actionSlot?: React.ReactNode;
 };
 ```
 
 **Примеры использования:**
+
 ```typescript
 <Card
     image="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
@@ -184,9 +225,11 @@ type CardProps = {
 ```
 
 ## 7. Input
+
 Реализуйте компонент Поле ввода
 
 **Требования:**
+
 1. Необходимо использовать html-тег `input`
 2. Должен быть слот для иконки справа
 
@@ -205,6 +248,7 @@ type InputProps = Omit<
 ```
 
 **Примеры использования:**
+
 ```typescript
 // Простое поле
 <Input
@@ -229,9 +273,11 @@ type InputProps = Omit<
 ```
 
 ## 8. MultiDropdown
+
 Реализуйте компонент Выпадающий список с множественным выбором (Фильтр).
 
 **Требования:**
+
 1. Должен использовать компонент `Input`
 1. При вводе в поле, опции должны фильтроваться
 1. Опции должны пропадать из DOM-дерева при клике вне поля
@@ -261,6 +307,7 @@ type MultiDropdownProps = {
 ```
 
 **Примеры использования:**
+
 ```typescript
 // Простой фильтр
 <MultiDropdown
@@ -293,9 +340,11 @@ type MultiDropdownProps = {
 ```
 
 ## 9. CheckBox
+
 Реализуйте компонент Чекбокс
 
 **Требования:**
+
 1. Необходимо использовать html-тег `input` с типом "чекбокс"
 
 ```typescript
@@ -309,6 +358,7 @@ type CheckBoxProps = Omit<
 ```
 
 **Примеры использования:**
+
 ```typescript
 // Простой чекбокс
 <CheckBox
@@ -324,18 +374,25 @@ type CheckBoxProps = Omit<
 />
 ```
 
-## Перед отправкой дз на проверку
-1. Укажите личный ключ `user_token` в файле config.yml
-Пример config.yml:
+## Перед отправкой ДЗ на проверку
+
+1. Укажите личный ключ `user_token` в файле `config.yml`.
+   Пример `config.yml`:
+
 ```
 user_token: e3631261-c636-42458-ab0b-g8e534e984ee
 ```
-3. Выполните команду запуска тестов
+
+2. Выполните команду запуска тестов
+
 ```
 yarn test
 ```
-4. Если не прошел визуальный тест `screenshot.test.ts`
+
+3. Если не прошел визуальный тест `screenshot.test.ts`
+
 - Обновите Google Chrome до последне стабильной версии (>=110.0.5478.0)
-- Убедитесь что не меняли файлы *.stories.tsx
+- Убедитесь что не меняли файлы \*.stories.tsx
 - Посмотрите различия в папке `src/__test__/__image_snapshots__/<НАЗВАНИЕ КОМПОНЕНТА>/__diff_output__` и исправьте их
-5. Отправьте изменения в свой репозиторий
+
+4. При успешном прохождении тестов, отправьте изменения в свой репозиторий
