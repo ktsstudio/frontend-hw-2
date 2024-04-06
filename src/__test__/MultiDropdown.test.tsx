@@ -253,4 +253,36 @@ describe('Тестирование компонента MultiDropdown', () => {
 
     expect(secondOption).not.toBeInTheDocument();
   });
+
+  test('Проверка фильтрации', () => {
+    const title = 'TEST_TITLE';
+    render(
+      <WrappedDropdown options={options} getTitle={() => title} />
+    );
+
+    const dropdownElement = screen.getByDisplayValue('');
+    expect(dropdownElement).toBeInTheDocument();
+
+    userEvent.click(dropdownElement);
+
+    const firstOption = screen.getByText(options[0].value);
+    const secondOption = screen.getByText(options[1].value);
+    const thirdOption = screen.getByText(options[2].value);
+
+    expect(firstOption).toBeInTheDocument();
+    expect(secondOption).toBeInTheDocument();
+    expect(thirdOption).toBeInTheDocument();
+
+    userEvent.type(dropdownElement, 'Екат');
+
+    expect(firstOption).not.toBeInTheDocument();
+    expect(secondOption).not.toBeInTheDocument();
+    expect(thirdOption).toBeInTheDocument();
+
+    userEvent.clear(dropdownElement);
+
+    expect(screen.getByText(options[0].value)).toBeInTheDocument();
+    expect(screen.getByText(options[1].value)).toBeInTheDocument();
+    expect(screen.getByText(options[2].value)).toBeInTheDocument();
+  });
 });
