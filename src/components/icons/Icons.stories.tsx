@@ -11,21 +11,21 @@ export default {
     },
     color: {
       options: ['primary', 'secondary', 'accent'],
-      mapping:  ['primary', 'secondary', 'accent'],
-      control: 'select'
+      mapping: ['primary', 'secondary', 'accent'],
+      control: 'select',
     },
     width: {
-      control: 'number'
+      control: 'number',
     },
     height: {
-      control: 'number'
+      control: 'number',
     },
   },
 };
 
 export const Default = (props: IconProps) => (
-    <div style={{ display: 'flex', gap: '20px'}}>
-      <CheckIcon {...props} />
-      <ArrowDownIcon {...props} />
-    </div>
+  <div style={{ display: 'flex', gap: '20px' }}>
+    <CheckIcon {...props} />
+    <ArrowDownIcon {...props} />
+  </div>
 );

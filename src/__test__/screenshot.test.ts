@@ -1,7 +1,7 @@
 import puppeteer, { Page, Browser } from 'puppeteer';
 import crypto from 'crypto';
 import http from 'http';
-import handler  from 'serve-handler';
+import handler from 'serve-handler';
 import path from 'path';
 import { MatchImageSnapshotOptions } from 'jest-image-snapshot';
 import { setupScreenshotTesting } from './screenshotUtils/screenshotTesting';
@@ -13,23 +13,30 @@ let page: Page;
 
 const SNAPSHOT_DIR = path.join(__dirname, '__image_snapshots__');
 
-const MATCH_SNAPSHOT_OPTIONS: MatchImageSnapshotOptions = { customSnapshotsDir: SNAPSHOT_DIR, failureThreshold: 0.05, failureThresholdType: 'percent', customSnapshotIdentifier: ({ currentTestName }) => {
-  const result = currentTestName.replace(/^Screenshot\s/, '').replaceAll(' ', '_').replaceAll('/', '-');
+const MATCH_SNAPSHOT_OPTIONS: MatchImageSnapshotOptions = {
+  customSnapshotsDir: SNAPSHOT_DIR,
+  failureThreshold: 0.05,
+  failureThresholdType: 'percent',
+  customSnapshotIdentifier: ({ currentTestName }) => {
+    const result = currentTestName
+      .replace(/^Screenshot\s/, '')
+      .replaceAll(' ', '_')
+      .replaceAll('/', '-');
 
-  if (result.length > 150) {
-    return crypto.createHash('md5').update(result).digest('hex');
-  }
+    if (result.length > 150) {
+      return crypto.createHash('md5').update(result).digest('hex');
+    }
 
-  return result;
-
-}}
+    return result;
+  },
+};
 
 const screenshotTesting = setupScreenshotTesting({
   it,
   expect,
   matchOptions: MATCH_SNAPSHOT_OPTIONS,
   getPage: () => page,
-})
+});
 
 describe('Screenshot', () => {
   beforeAll(async () => {
@@ -42,7 +49,7 @@ describe('Screenshot', () => {
     server.listen(6006);
     browser = await puppeteer.launch(BROWSER_OPTIONS);
     page = await browser.newPage();
-  }, 30000)
+  }, 30000);
 
   screenshotTesting({
     componentName: 'loader',
@@ -56,7 +63,7 @@ describe('Screenshot', () => {
     matchOptions: {
       blur: 2,
       failureThreshold: 0.02,
-    }
+    },
   });
 
   screenshotTesting({
@@ -79,7 +86,7 @@ describe('Screenshot', () => {
     props: {
       width: ['24', '40'],
       height: ['24', '40'],
-      color: ['accent', 'secondary', 'primary']
+      color: ['accent', 'secondary', 'primary'],
     },
     viewPort: {
       width: 140,
@@ -91,7 +98,7 @@ describe('Screenshot', () => {
     name: 'Icons blur',
     componentName: 'icons',
     props: {
-      color: ['accent', 'secondary', 'primary']
+      color: ['accent', 'secondary', 'primary'],
     },
     viewPort: {
       width: 140,
@@ -100,7 +107,7 @@ describe('Screenshot', () => {
     matchOptions: {
       blur: 2,
       failureThreshold: 0.02,
-    }
+    },
   });
 
   screenshotTesting({
@@ -118,20 +125,25 @@ describe('Screenshot', () => {
     },
     evaluate: async (p: Page) => {
       await p.hover('.test-button');
-      await p.waitForTimeout(300);
-    }
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    },
   });
-
 
   screenshotTesting({
     componentName: 'card',
     props: {
       className: ['test-card'],
-      title: ['kts-school-frontend', 'kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend'],
-      subtitle: ['ktsstudio', 'kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend'],
+      title: [
+        'kts-school-frontend',
+        'kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend',
+      ],
+      subtitle: [
+        'ktsstudio',
+        'kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend',
+      ],
       contentSlot: ['99.88'],
       // image: ['/picture.svg'],
-      captionSlot: [undefined, 'caption-text']
+      captionSlot: [undefined, 'caption-text'],
     },
     viewPort: {
       width: 380,
@@ -147,11 +159,17 @@ describe('Screenshot', () => {
     componentName: 'card',
     props: {
       className: ['test-card'],
-      title: ['kts-school-frontend', 'kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend'],
-      subtitle: ['ktsstudio', 'kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend'],
+      title: [
+        'kts-school-frontend',
+        'kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend',
+      ],
+      subtitle: [
+        'ktsstudio',
+        'kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend kts-school-frontend',
+      ],
       contentSlot: ['99.88'],
       // image: ['/picture.svg'],
-      captionSlot: [undefined, 'caption-text']
+      captionSlot: [undefined, 'caption-text'],
     },
     viewPort: {
       width: 380,
@@ -160,10 +178,8 @@ describe('Screenshot', () => {
     matchOptions: {
       failureThreshold: 0.07,
     },
-    evaluate: async (p: Page) =>
-      await p.hover('.test-card')
+    evaluate: async (p: Page) => await p.hover('.test-card'),
   });
-
 
   screenshotTesting({
     componentName: 'input',
@@ -197,10 +213,9 @@ describe('Screenshot', () => {
       height: 100,
     },
     evaluate: async (p: Page) => {
-      await p.focus('.test-input')
-    }
+      await p.focus('.test-input');
+    },
   });
-
 
   screenshotTesting({
     componentName: 'multidropdown',
@@ -234,7 +249,7 @@ describe('Screenshot', () => {
       height: 600,
     },
     evaluate: async (p: Page) => {
-      await p.click('.test-multidropdown')
+      await p.click('.test-multidropdown');
     },
   });
 
@@ -252,7 +267,7 @@ describe('Screenshot', () => {
     matchOptions: {
       blur: 2,
       failureThreshold: 0.02,
-    }
+    },
   });
 
   screenshotTesting({
@@ -269,12 +284,12 @@ describe('Screenshot', () => {
     },
     evaluate: async (p: Page) => {
       await p.hover('.test-checkbox');
-      await p.waitForTimeout(300);
+      await new Promise((resolve) => setTimeout(resolve, 300));
     },
     matchOptions: {
       blur: 2,
       failureThreshold: 0.02,
-    }
+    },
   });
 
   screenshotTesting({
@@ -290,17 +305,17 @@ describe('Screenshot', () => {
     },
     evaluate: async (p: Page) => {
       await p.click('.test-checkbox');
-      await p.waitForTimeout(300);
+      await new Promise((resolve) => setTimeout(resolve, 300));
       await p.mouse.move(100, 100);
     },
     matchOptions: {
       blur: 2,
       failureThreshold: 0.02,
-    }
+    },
   });
 
   afterAll((done) => {
     browser.close();
     server.close(done);
-  }, 30000)
+  }, 30000);
 });
