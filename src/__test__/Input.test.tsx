@@ -44,17 +44,17 @@ describe('Тестирование компонента Input', () => {
     expect(inputElement).toHaveValue('прив');
   });
 
-  test('При вводе значений в input вызывается onChange, принимающий новое значение', () => {
+  test('При вводе значений в input вызывается onChange, принимающий новое значение', async () => {
     const mockOnChange = jest.fn();
     render(<WrappedInput onChange={mockOnChange} />);
 
-    userEvent.tab();
-    userEvent.keyboard('d');
-    expect(mockOnChange).toBeCalledWith('d');
-    userEvent.keyboard('i');
-    expect(mockOnChange).toBeCalledWith('di');
-    userEvent.keyboard('v');
-    expect(mockOnChange).toBeCalledWith('div');
+    await userEvent.tab();
+    await userEvent.keyboard('d');
+    expect(mockOnChange).toHaveBeenCalledWith('d');
+    await userEvent.keyboard('i');
+    expect(mockOnChange).toHaveBeenCalledWith('di');
+    await userEvent.keyboard('v');
+    expect(mockOnChange).toHaveBeenCalledWith('div');
   });
 
   test('Компонент Input использует нативный тег input с типом text', () => {
@@ -87,7 +87,7 @@ describe('Тестирование компонента Input', () => {
     expect(inputElement).not.toBeDisabled();
   });
 
-  test('При передаче disabled=true во время попытки ввода не вызывается onChange', () => {
+  test('При передаче disabled=true во время попытки ввода не вызывается onChange', async () => {
     const mockOnChange = jest.fn();
     render(
       <Input
@@ -99,8 +99,8 @@ describe('Тестирование компонента Input', () => {
     );
 
     const inputElement = screen.getByTestId(Locators.INPUT);
-    userEvent.type(inputElement, 'some_text');
-    expect(mockOnChange).not.toBeCalled();
+    await userEvent.type(inputElement, 'some_text');
+    expect(mockOnChange).not.toHaveBeenCalled();
   });
 
   test('Можно передать дополнительный className и он будет на корневом элементе', () => {
@@ -133,9 +133,9 @@ describe('Тестирование компонента Input', () => {
 
     expect(inputElement).toHaveAttribute('value', testValue);
     expect(inputElement).toHaveValue(testValue);
-});
+  });
 
-  test('Пробрасываются все пропсы, которые принимает нативный инпут', () => {
+  test('Пробрасываются все пропсы, которые принимает нативный инпут', async () => {
     const onHover = jest.fn();
     const onUnHover = jest.fn();
     const onFocus = jest.fn();
@@ -162,17 +162,17 @@ describe('Тестирование компонента Input', () => {
 
     const buttonElement = screen.getByTestId(Locators.INPUT);
 
-    userEvent.hover(buttonElement);
-    expect(onHover).toBeCalledTimes(1);
+    await userEvent.hover(buttonElement);
+    expect(onHover).toHaveBeenCalledTimes(1);
 
-    userEvent.unhover(buttonElement);
-    expect(onUnHover).toBeCalledTimes(1);
+    await userEvent.unhover(buttonElement);
+    expect(onUnHover).toHaveBeenCalledTimes(1);
 
-    userEvent.tab();
-    expect(onFocus).toBeCalledTimes(1);
+    await userEvent.tab();
+    expect(onFocus).toHaveBeenCalledTimes(1);
 
-    userEvent.tab();
-    expect(onBlur).toBeCalledTimes(1);
+    await userEvent.tab();
+    expect(onBlur).toHaveBeenCalledTimes(1);
 
     expect(buttonElement).toHaveAttribute('id', id);
     expect(buttonElement).toHaveAttribute('name', name);

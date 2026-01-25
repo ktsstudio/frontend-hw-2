@@ -20,7 +20,7 @@ describe('Тестирование компонента Card', () => {
   test('Пропс title в виде элемента передается и отображается', () => {
     render(
       <Card
-      // @ts-ignore
+        // @ts-ignore
         title={<span data-testid={Locators.CARD_TITLE} />}
         subtitle={CARD_SUBTITLE}
         image="--"
@@ -65,7 +65,7 @@ describe('Тестирование компонента Card', () => {
     );
 
     // eslint-disable-next-line testing-library/no-node-access
-    const imageElement = baseElement.querySelector('img')
+    const imageElement = baseElement.querySelector('img');
 
     expect(imageElement).toHaveAttribute('src', testImageSrc);
   });
@@ -87,25 +87,23 @@ describe('Тестирование компонента Card', () => {
     expect(content).not.toBeInTheDocument();
   });
 
-  test('При клике вызывается onClick, если передан', () => {
+  test('При клике вызывается onClick, если передан', async () => {
     const mockOnClick = jest.fn();
-    const { container} = render(
-
-        <Card
-          onClick={mockOnClick}
-          title={CARD_TITLE}
-          subtitle={CARD_SUBTITLE}
-          image="-"
-        />
-
+    const { container } = render(
+      <Card
+        onClick={mockOnClick}
+        title={CARD_TITLE}
+        subtitle={CARD_SUBTITLE}
+        image="-"
+      />
     );
 
     // eslint-disable-next-line testing-library/no-node-access
     const cardElement = container.firstChild;
 
     expect(cardElement).toBeInTheDocument();
-    userEvent.click(cardElement as Element);
-    expect(mockOnClick).toBeCalledTimes(1);
+    await userEvent.click(cardElement as Element);
+    expect(mockOnClick).toHaveBeenCalledTimes(1);
   });
 
   test('Пропс actionSlot передаются и отображается', () => {
@@ -126,13 +124,7 @@ describe('Тестирование компонента Card', () => {
   });
 
   test('Для title и subtitle используется компонент Text', () => {
-    render(
-      <Card
-        image="-"
-        title={CARD_TITLE}
-        subtitle={CARD_SUBTITLE}
-      />
-    );
+    render(<Card image="-" title={CARD_TITLE} subtitle={CARD_SUBTITLE} />);
 
     const texts = screen.getAllByTestId(Locators.TEXT);
     expect(texts.length).toBe(2);

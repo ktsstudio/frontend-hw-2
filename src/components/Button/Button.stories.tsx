@@ -11,31 +11,29 @@ export default {
     },
     disabled: {
       control: {
-        type: 'boolean'
+        type: 'boolean',
       },
       mapping: {
-        'true': true,
-        'false': false,
-        'undefined': undefined,
-      }
+        true: true,
+        false: false,
+        undefined: undefined,
+      },
     },
     loading: {
       control: {
-        type: 'boolean'
+        type: 'boolean',
       },
       mapping: {
-        'true': true,
-        'false': false,
-        'undefined': undefined,
-      }
+        true: true,
+        false: false,
+        undefined: undefined,
+      },
     },
     children: {
       type: { name: 'string', required: false },
-      defaultValue: 'Send'
-    }
-  }
+      defaultValue: 'Send',
+    },
+  },
 };
 
-export const Default = (props: ButtonProps) => (
-  <Button {...props} />
-);
+export const Default = (props: ButtonProps) => <Button {...props} />;

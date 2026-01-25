@@ -12,7 +12,6 @@ export type InputProps = Omit<
   afterSlot?: React.ReactNode;
 };
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  () => null);
+const Input = React.forwardRef<HTMLInputElement, InputProps>(() => null);
 
 export default Input;

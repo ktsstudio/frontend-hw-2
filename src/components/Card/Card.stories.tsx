@@ -11,37 +11,39 @@ export default {
     },
     image: {
       defaultValue: '/picture.svg',
-      control: 'text'
+      control: 'text',
     },
     captionSlot: {
       mapping: {
-        'undefined': undefined,
+        undefined: undefined,
       },
-      control: 'text'
+      control: 'text',
     },
     title: {
       mapping: {
-        'undefined': undefined,
+        undefined: undefined,
       },
       control: 'text',
-      defaultValue: 'Заголовок карточки в несколько строк Заголовок карточки в несколько строк'
+      defaultValue:
+        'Заголовок карточки в несколько строк Заголовок карточки в несколько строк',
     },
     subtitle: {
       mapping: {
-        'undefined': undefined,
+        undefined: undefined,
       },
       control: 'text',
-      defaultValue: 'Описание карточки Описание карточки Описание карточкиОписание карточкиОписание карточки Описание карточки'
+      defaultValue:
+        'Описание карточки Описание карточки Описание карточкиОписание карточкиОписание карточки Описание карточки',
     },
     contentSlot: {
       mapping: {
-        'undefined': undefined,
+        undefined: undefined,
       },
-      control: 'text'
+      control: 'text',
     },
   },
 };
 
 export const Default = (props: CardProps) => (
-    <Card {...props} actionSlot={<Button>В корзину</Button>} />
+  <Card {...props} actionSlot={<Button>В корзину</Button>} />
 );

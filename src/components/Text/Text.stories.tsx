@@ -12,30 +12,28 @@ export default {
     view: {
       options: ['title', 'button', 'p-20', 'p-18', 'p-16', 'p-14'],
       mapping: ['title', 'button', 'p-20', 'p-18', 'p-16', 'p-14'],
-      control: 'select'
+      control: 'select',
     },
     tag: {
       options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'p', 'span'],
-      mapping:  ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'p', 'span'],
-      control: 'select'
+      mapping: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'p', 'span'],
+      control: 'select',
     },
     weight: {
       options: ['normal', 'bold'],
-      mapping:  ['normal', 'bold'],
-      control: 'select'
+      mapping: ['normal', 'bold'],
+      control: 'select',
     },
     color: {
       options: ['primary', 'secondary', 'accent'],
-      mapping:  ['primary', 'secondary', 'accent'],
-      control: 'select'
+      mapping: ['primary', 'secondary', 'accent'],
+      control: 'select',
     },
     children: {
       type: { name: 'string', required: false },
-      defaultValue: 'Some text'
-    }
+      defaultValue: 'Some text',
+    },
   },
 };
 
-export const Default = (props: TextProps) => (
-  <Text {...props}/>
-);
+export const Default = (props: TextProps) => <Text {...props} />;

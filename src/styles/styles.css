@@ -1,6 +1,7 @@
 @import './Roboto/fonts';
 
-html, body {
+html,
+body {
   font-family: 'Roboto';
   margin: 0;
   padding: 0;
